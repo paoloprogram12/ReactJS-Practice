@@ -24,4 +24,33 @@ function Signup() {
             setMsg(err.response?.data || "Signup failed");
         }
     };
+
+    return (
+        <div>
+            <h2>Signup</h2>
+
+            {/* Signup Form */}
+            <form onSubmit={handleSignup}>
+                {/* Email input */}
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email} // bind input to state
+                    onChange={(e) => setEmail(e.target.value)} // update email state on change
+                /><br/>
+
+                {/* Password Input*/}
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password} // bind input to state
+                    onChange={(e) => setEmail(e.target.value)} // update password state on change
+                /><br/>
+
+                <button type="submit">Register</button> {/* Submit button */}
+            </form>
+
+            <p>{msg}</p> {/* Show response message */}
+        </div>
+    );
 }
