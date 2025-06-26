@@ -37,3 +37,34 @@ db.connect((err) => {
     // message if connection is successful
     console.log('Connected to mySQL');
 });
+
+// signup route
+// handles registration of a new user
+app.post('/signup', async (req, res) => {
+    const { email, password } = req.body; // gets email and password from request body
+
+    // checks if email is already used
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+        if (err) {
+            return res.status(500).send('Server Error'); // if there is a server/database error
+        }
+        if (results.length > 0) {
+            return res.status(400).send('Email already registered') // email already used
+        }
+
+        // hashes the password
+        const hashedPasswords = await bcrypt.hash(password, 10); // 10 = salt rounds
+
+        // insert the new user into the database
+        db.query(
+            'INSERT INTO users (email, password) VALUES (?, ?)', // SQL query
+            [email, hashedPasswords], // parameters for the query
+            (err, results) => {
+                if (err) {
+                    return res.status(500).send('Error Creating User') // insert into DB failed
+                }
+                res.send('User registered successfully');
+            }
+        );
+    });
+});
