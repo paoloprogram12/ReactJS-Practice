@@ -56,3 +56,5 @@ function Signup() {
 }
 
 export default Signup; // export the signup component
+
+// fix the sign up front end portion, doesn't work
