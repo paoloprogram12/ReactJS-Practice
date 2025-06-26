@@ -25,5 +25,33 @@ function Login() {
         }
     };
 
-    
+    return (
+        <div>
+            <h2>Login</h2>
+
+            {/* Login form */}
+            <form onSubmit={handleLogin}>
+                {/* Email input */}
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email} // the input value
+                    onChange={(e) => setEmail(e.target.value)} // updates the email state
+                /><br/>
+
+                {/* Password input */}
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password} // the input value
+                    onChange={(e) => setPassword(e.target.value)} // updates the password state
+                /><br/>
+
+                <button type="submit">Login</button> {/* Submits the form */}
+            </form>
+
+            <p>{msg}</p> {/* Displays the message that is listed in the backend */}
+
+        </div>
+    )
 }
