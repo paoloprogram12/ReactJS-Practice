@@ -26,3 +26,14 @@ const db = mysql.createConnection({
     password: process.env.DB_PASSWORD, // password
     database: process.env.DB_NAME // database for the project
 });
+
+// connect to SQL database
+db.connect((err) => {
+    if (err) {
+        // if connection fails, log the error and stop
+        console.error('Database connection failed: ', err);
+        return;
+    }
+    // message if connection is successful
+    console.log('Connected to mySQL');
+});
