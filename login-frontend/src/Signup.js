@@ -54,3 +54,5 @@ function Signup() {
         </div>
     );
 }
+
+export default Signup; // export the signup component
