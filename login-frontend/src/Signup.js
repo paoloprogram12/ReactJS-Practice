@@ -17,6 +17,11 @@ function Signup() {
                 email,
                 password,
             });
+
+            setMsg(res.data); // displays the backend response (ex: User registered successfully)
+        } catch (err) {
+            // handles any error from the backend
+            setMsg(err.response?.data || "Signup failed");
         }
-    }
+    };
 }
