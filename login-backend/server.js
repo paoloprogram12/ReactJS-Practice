@@ -68,3 +68,31 @@ app.post('/signup', async (req, res) => {
         );
     });
 });
+
+// login route
+// handles login for users that are already in the DB
+app.post('/login', (req, res) => {
+    const { email, password } = req.body; // gets the email and password from user from request (req)
+
+    // looks for user in the db by email
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+        if (err) { // if there is an error with the server
+            return res.status(500).send('Server Error');
+        }
+        if (results.length === 0) { // if the email is not in the database
+            return res.status(400).send('Email not found'); 
+        }
+
+        // retrieves the user from the db based on email result (query result)
+        const user = results[0];
+
+        // compares the password that the user entered with the hashed password in the db
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) { // if the user-entered password doesn't match the hashed password in the db
+            return res.status(401).send('Password is incorrect');
+        }
+
+        // if the user-entered password matches the hashed password in the database
+        res.send('Login Successful');
+    });
+});
