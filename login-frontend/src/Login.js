@@ -51,7 +51,8 @@ function Login() {
             </form>
 
             <p>{msg}</p> {/* Displays the message that is listed in the backend */}
-
         </div>
-    )
+    );
 }
+
+export default Login; // exports the login component
