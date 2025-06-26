@@ -4,3 +4,25 @@ const mysql = require('myspl2'); // to connect to the SQL database
 const cors = require('cors'); // allows requests from different origins (front end and react app)
 const bodyParser = require('body-parser'); // parses incoming request bodies (JSON, etc.)
 const bcrypt = require('bcryptjs'); // library to hash and compare passwords
+require('dotenv').config(); // used for pass
+
+// JSON: used to transmit data between a server and a web app
+// CORS: browser security feature that controls access to resources on a web page from a diff origin
+
+// create express
+const app = express();
+
+// define port number of the server
+const port = 5000;
+
+// middleware setup
+app.use(cors()); // enables CORS so frontend can communicate with server
+app.use(bodyParser.json()); // parses JSON data in request bodies
+
+// MySQL database setup
+const db = mysql.createConnection({
+    host: process.env.DB_HOST, // MySQL server is running locally
+    user: process.env.DB_USER, // MySQL username
+    password: process.env.DB_PASSWORD, // password
+    database: process.env.DB_NAME // database for the project
+});
