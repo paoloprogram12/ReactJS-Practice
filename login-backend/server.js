@@ -96,3 +96,8 @@ app.post('/login', (req, res) => {
         res.send('Login Successful');
     });
 });
+
+// starts the server and listen on the defined port
+app.listen(port, () => {
+    console.log('Server running at https://localhost:${port}');
+});
