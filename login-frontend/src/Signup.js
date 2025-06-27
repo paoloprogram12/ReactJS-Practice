@@ -44,7 +44,7 @@ function Signup() {
                     type="password"
                     placeholder="Password"
                     value={password} // bind input to state
-                    onChange={(e) => setEmail(e.target.value)} // update password state on change
+                    onChange={(e) => setPassword(e.target.value)} // update password state on change
                 /><br/>
 
                 <button type="submit">Register</button> {/* Submit button */}
