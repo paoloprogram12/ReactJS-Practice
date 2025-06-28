@@ -15,7 +15,7 @@ function Signup() {
 
         try {
             // Send POST request to backend/signup route
-            const res = await axios.post("https://localhost:5000/signup", {
+            const res = await axios.post("http://localhost:5000/signup", {
                 email,
                 password,
             });
