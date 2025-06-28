@@ -19,7 +19,7 @@ const port = 5000;
 app.use(cors({
     origin: "http://localhost:3000", // allows requests from the react app
     credentials: true // optional but useful for cookies/sessions
-}))
+}));
 
 // middleware setup
 // app.use(cors()); // enables CORS so frontend can communicate with server
