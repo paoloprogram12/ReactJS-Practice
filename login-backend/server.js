@@ -16,29 +16,14 @@ const app = express();
 const port = 5000;
 
 // cors fix
-// app.use(cors({
-//     origin: "http://localhost:3000", // allows requests from the react app
-//     credentials: true // optional but useful for cookies/sessions
-// }));
+app.use(cors({
+    origin: "http://localhost:3000", // allows requests from the react app
+    credentials: true // optional but useful for cookies/sessions
+}));
 
-// // middleware setup
-// // app.use(cors()); // enables CORS so frontend can communicate with server
-// app.use(bodyParser.json()); // parses JSON data in request bodies
-
-// CORRECTED CORS MIDDLEWARE SETUP
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-  
-    // If it's a preflight request, send 200 immediately
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(200);
-    }
-  
-    next(); // move to the next middleware/route
-  });
+// middleware setup
+// app.use(cors()); // enables CORS so frontend can communicate with server
+app.use(bodyParser.json()); // parses JSON data in request bodies
 
 // MySQL database setup
 const db = mysql.createConnection({
