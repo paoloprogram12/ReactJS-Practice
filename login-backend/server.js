@@ -14,16 +14,18 @@ const bcrypt = require('bcryptjs'); // library to hash and compare passwords
 const app = express();
 
 // define port number of the server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(cors({
-    origin: 'http://localhost:3000',    // your React app
-    methods: ['GET','POST','OPTIONS'],   // only what you actually use
-    allowedHeaders: ['Content-Type'],    // since you’re just sending JSON
+    origin: 'http://localhost:3000',    // EXACTLY your React URL
+    methods: ['GET','POST','OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
   }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);

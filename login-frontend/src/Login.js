@@ -14,7 +14,7 @@ function Login() {
 
         try {
             // send POST request to /login endpoint
-            const res = await axios.post("https://localhost:5000/login", {
+            const res = await axios.post("https://localhost:5001/login", {
                 email,
                 password,
             });
