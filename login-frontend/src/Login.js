@@ -1,5 +1,6 @@
 import React, { useState } from "react"; // import react and useState hook
 import axios from "axios"; // import axios for http requests
+import { Link } from "react-router-dom";
 
 function Login() {
     // variables to store user inputs and feedback messages
@@ -51,6 +52,12 @@ function Login() {
             </form>
 
             <p>{msg}</p> {/* Displays the message that is listed in the backend */}
+
+            { /* Link to signup page */ }
+            <p>
+                Don't have an account? <Link to="/signup">Sign up</Link>
+                { /* Clicking this takes user to /signup without reloading the page */ }
+            </p>
         </div>
     );
 }
