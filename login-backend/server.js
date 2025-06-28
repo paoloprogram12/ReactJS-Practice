@@ -16,14 +16,24 @@ const app = express();
 const port = 5000;
 
 // cors fix
-app.use(cors({
-    origin: "http://localhost:3000", // allows requests from the react app
-    credentials: true // optional but useful for cookies/sessions
-}));
+// app.use(cors({
+//     origin: "http://localhost:3000", // allows requests from the react app
+//     credentials: true // optional but useful for cookies/sessions
+// }));
 
-// middleware setup
-// app.use(cors()); // enables CORS so frontend can communicate with server
-app.use(bodyParser.json()); // parses JSON data in request bodies
+// // middleware setup
+// // app.use(cors()); // enables CORS so frontend can communicate with server
+// app.use(bodyParser.json()); // parses JSON data in request bodies
+
+app.use(cors({
+    origin: 'http://localhost:3000', // your React app
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+  }));
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
 // MySQL database setup
 const db = mysql.createConnection({
