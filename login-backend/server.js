@@ -1,10 +1,11 @@
 // required packages
+require('dotenv').config(); // used for pass
 const express = require('express'); // web framework to create routes and handle requests
 const mysql = require('mysql2'); // to connect to the SQL database
 const cors = require('cors'); // allows requests from different origins (front end and react app)
 const bodyParser = require('body-parser'); // parses incoming request bodies (JSON, etc.)
 const bcrypt = require('bcryptjs'); // library to hash and compare passwords
-require('dotenv').config(); // used for pass
+
 
 // JSON: used to transmit data between a server and a web app
 // CORS: browser security feature that controls access to resources on a web page from a diff origin
@@ -16,19 +17,18 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add OPTIONS
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}));
+    origin: 'http://localhost:3000',    // your React app
+    methods: ['GET','POST','OPTIONS'],   // only what you actually use
+    allowedHeaders: ['Content-Type'],    // since you’re just sending JSON
+  }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     next();
-  });
+});
   
 
 // MySQL database setup
@@ -53,6 +53,7 @@ db.connect((err) => {
 // signup route
 // handles registration of a new user
 app.post('/signup', async (req, res) => {
+    console.log('BODY:', req.body);
     const { email, password } = req.body; // gets email and password from request body
 
     // checks if email is already used
