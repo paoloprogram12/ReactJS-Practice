@@ -1,11 +1,13 @@
 import React, { useState } from "react"; // imports react and useState hook
 import axios from "axios"; // import axios for HTTP requests
+import { useNavigate } from "react-router-dom"; // allows navigation
 
 function Signup() {
     // State variables to store input values and response message
     const [email, setEmail] = useState(""); // stores the user email
     const [password, setPassword] = useState(""); // stores the user password
     const [msg, setMsg] = useState(""); // stores the feedback message (Success or Error)
+    const navigate = useNavigate(); // allows changing pages
 
     // function to handle form submissions
     const handleSignup = async (e) => {
@@ -19,6 +21,11 @@ function Signup() {
             });
 
             setMsg(res.data); // displays the backend response (ex: User registered successfully)
+
+            // redirect to login after a short delay
+            setTimeout(() => {
+                navigate("/login"); // navigates back to the login page
+            }, 1000); // delays by 1 second
         } catch (err) {
             // handles any error from the backend
             setMsg(err.response?.data || "Signup failed");
