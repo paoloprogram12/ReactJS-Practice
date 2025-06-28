@@ -22,7 +22,7 @@ app.use(cors({
 }))
 
 // middleware setup
-app.use(cors()); // enables CORS so frontend can communicate with server
+// app.use(cors()); // enables CORS so frontend can communicate with server
 app.use(bodyParser.json()); // parses JSON data in request bodies
 
 // MySQL database setup
