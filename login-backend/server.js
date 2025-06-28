@@ -13,27 +13,23 @@ require('dotenv').config(); // used for pass
 const app = express();
 
 // define port number of the server
-const port = 5000;
-
-// cors fix
-// app.use(cors({
-//     origin: "http://localhost:3000", // allows requests from the react app
-//     credentials: true // optional but useful for cookies/sessions
-// }));
-
-// // middleware setup
-// // app.use(cors()); // enables CORS so frontend can communicate with server
-// app.use(bodyParser.json()); // parses JSON data in request bodies
+const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:3000', // your React app
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add OPTIONS
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
-  }));
+}));
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+  
 
 // MySQL database setup
 const db = mysql.createConnection({
