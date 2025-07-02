@@ -18,6 +18,8 @@ function App() {
         <Route path='/signup' element={<Signup />} /> {/* When the url "/signup" is shown, shows the signup */}
 
         <Route path='/login' element={<Login />} /> {/* when the url is "/login" is shown, shows the login */}
+
+        <Route path='/home' element={<Home />} /> { /* when the url is "/home" is home, shows the home */ } 
         
       </Routes>
     </Router>
