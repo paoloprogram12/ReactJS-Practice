@@ -6,12 +6,18 @@ function Signup() {
     // State variables to store input values and response message
     const [email, setEmail] = useState(""); // stores the user email
     const [password, setPassword] = useState(""); // stores the user password
+    const [confirmPassword, setConfirmPassword] = useState(""); // stores the confirmed password
     const [msg, setMsg] = useState(""); // stores the feedback message (Success or Error)
     const navigate = useNavigate(); // allows changing pages
 
     // function to handle form submissions
     const handleSignup = async (e) => {
         e.preventDefault(); // prevents the page from refreshing once submitted
+
+        if (password !== confirmPassword) {
+            setMsg("Passwords do not match");
+            return;
+        }
 
         try {
             // Send POST request to backend/signup route
@@ -53,6 +59,9 @@ function Signup() {
                     value={password} // bind input to state
                     onChange={(e) => setPassword(e.target.value)} // update password state on change
                 /><br/>
+
+                { /* Confirm Password Input */ }
+                
 
                 <button type="submit">Register</button> {/* Submit button */}
             </form>
