@@ -61,7 +61,12 @@ function Signup() {
                 /><br/>
 
                 { /* Confirm Password Input */ }
-                
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                /><br/>
 
                 <button type="submit">Register</button> {/* Submit button */}
             </form>
