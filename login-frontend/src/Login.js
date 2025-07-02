@@ -22,6 +22,11 @@ function Login() {
             });
 
             setMsg(res.data); // set success message from backend
+
+            // redirect to login after a short delay
+            setTimeout(() => {
+                navigate("/home"); // takes you to home after button press
+            }, 1000); // 1 sec delay
         } catch (err) {
             // set error message if the login fails
             setMsg(err.response?.data || "Login Failed");
