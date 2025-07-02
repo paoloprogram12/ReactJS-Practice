@@ -8,6 +8,7 @@ function Login() {
     const [email, setEmail] = useState(""); // email input state
     const [password, setPassword] = useState(""); // password input state
     const [msg, setMsg] = useState(""); // message input state
+    const navigate = useNavigate(); // allows changing pages
 
     // function to handle login form submission
     const handleLogin = async (e) => {
