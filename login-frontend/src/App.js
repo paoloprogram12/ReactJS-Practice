@@ -2,6 +2,7 @@ import React from "react"; // react library
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./Signup";
 import Login from "./Login";
+import Home from "./Home";
 // Import Router components:
 // - Router: wraps your app and enables routing
 // - Routes: wraps all your individual routes
