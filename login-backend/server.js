@@ -6,6 +6,7 @@ const cors = require('cors'); // allows requests from different origins (front e
 const bodyParser = require('body-parser'); // parses incoming request bodies (JSON, etc.)
 const bcrypt = require('bcryptjs'); // library to hash and compare passwords
 const nodemailer = require('nodemailer'); // allows email confirmation
+const { default: Signup } = require('../login-frontend/src/Signup');
 
 
 // JSON: used to transmit data between a server and a web app
@@ -75,21 +76,44 @@ app.post('/signup', async (req, res) => {
             return res.status(500).send('Server Error'); // if there is a server/database error
         }
         if (results.length > 0) {
-            return res.status(400).send('Email already registered') // email already used
+            return res.status(400).send('Email already registered'); // email already used
         }
 
         // hashes the password
         const hashedPasswords = await bcrypt.hash(password, 10); // 10 = salt rounds
 
+        //generates the 6 digit code
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+
         // insert the new user into the database
         db.query(
-            'INSERT INTO users (email, password) VALUES (?, ?)', // SQL query
-            [email, hashedPasswords], // parameters for the query
-            (err, results) => {
+            'INSERT INTO users (email, password, verification_code) VALUES (?, ?, ?)', // SQL query
+            [email, hashedPasswords, code], // parameters for the query
+            async (err) => {
                 if (err) {
-                    return res.status(500).send('Error Creating User') // insert into DB failed
+                    return res.status(500).send('Error Creating User'); // insert into DB failed
                 }
-                res.send('User registered successfully');
+
+                // used to send email verification
+                try {
+                    let info = await transporter.sendMail({
+                        from: process.env.EMAIL_FROM,
+                        to: email,
+                        subject: 'Your Verification Code',
+                        text: `Welcome! Your Verification Code is: ${code}`
+                    });
+
+                    // logs the preview URL
+                    console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+
+                    // tells the frontend to proceed with the verification
+                    res.send('Signup successful, check your email for a verification code');
+                } catch (mailErr) {
+                    console.error('Error sending Email', mailErr);
+                    return res
+                            .status(500)
+                            .send('Signup succeeded, but failed to send verification email');
+                }
             }
         );
     });
