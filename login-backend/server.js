@@ -5,6 +5,7 @@ const mysql = require('mysql2'); // to connect to the SQL database
 const cors = require('cors'); // allows requests from different origins (front end and react app)
 const bodyParser = require('body-parser'); // parses incoming request bodies (JSON, etc.)
 const bcrypt = require('bcryptjs'); // library to hash and compare passwords
+const nodemailer = require('nodemailer'); // allows email confirmation
 
 
 // JSON: used to transmit data between a server and a web app
@@ -50,6 +51,16 @@ db.connect((err) => {
     }
     // message if connection is successful
     console.log('Connected to mySQL');
+});
+
+// mailtrap transporter
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT),
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+    }
 });
 
 // signup route
