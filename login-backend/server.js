@@ -151,3 +151,27 @@ app.post('/login', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+
+// user verification
+app.post('/verify', (req, res) => {
+    const { email, code } = req.body;
+
+    // finds the matching user and code
+    db.query(
+        'SELECT * FROM users WHERE email = ? AND verification_code = ?',
+        [email, code],
+        (err, results) => {
+            if (err) { return res.status(500).send('Server Error'); }
+            if (!results.length) { return res.status(400).send('Invalid Code'); }
+
+            db.query(
+                'UPDATE users SET is_verified = TRUE, verification_code = NULL WHERE email = ?',
+                [email],
+                (err) => {
+                    if (err) { return res.status(500).send('Error Verifying User'); }
+                    res.send('Email verified, your account is now active');
+                }
+            );
+        }
+    );
+});
