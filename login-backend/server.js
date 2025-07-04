@@ -147,11 +147,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-// starts the server and listen on the defined port
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
-
 // user verification
 app.post('/verify', (req, res) => {
     const { email, code } = req.body;
@@ -174,4 +169,36 @@ app.post('/verify', (req, res) => {
             );
         }
     );
+});
+
+// resend verification code
+app.post('/resend-code', async (req, res) => {
+    const { email } = req.body;
+
+    db.query('SELECT is_verified FROM users WHERE email = ?', [email], async (err, results) => {
+        if (err) { return res.status(500).send('Server Error'); }
+        if (!results.length) { return res.status(400).send('Email not Found'); }
+        if (results[0].is_verified) { return res.status(400).send('Account is already registered'); }
+
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+        try {
+            let info = await transporter.sendMail({
+                from: process.env.EMAIL_FROM,
+                to: email,
+                subject: 'Your New Verification Code',
+                text: `Here's your new verification code: ${newCode}`
+            });
+            console.log('Preview URL', nodemailer.getTestMessageUrl(info));
+            res.send('A new verification code has been sent to your email');
+        } catch (err) {
+            console.error('Error sending new code', mailErr);
+            res.status(500).send('Could not send verification code');
+        }
+    })
+})
+
+// starts the server and listen on the defined port
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
