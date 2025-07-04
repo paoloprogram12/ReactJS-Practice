@@ -182,21 +182,29 @@ app.post('/resend-code', async (req, res) => {
 
         const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-        try {
-            let info = await transporter.sendMail({
-                from: process.env.EMAIL_FROM,
-                to: email,
-                subject: 'Your New Verification Code',
-                text: `Here's your new verification code: ${newCode}`
-            });
-            console.log('Preview URL', nodemailer.getTestMessageUrl(info));
-            res.send('A new verification code has been sent to your email');
-        } catch (err) {
-            console.error('Error sending new code', mailErr);
-            res.status(500).send('Could not send verification code');
-        }
-    })
-})
+        db.query(
+            'UPDATE users SET verification_code = ? WHERE email = ?',
+            [newCode, email],
+            async (err) => {
+                if (err) { return res.status(500).send('Error Generating new Code'); }
+
+                try {
+                    let info = await transporter.sendMail({
+                        from: process.env.EMAIL_FROM,
+                        to: email,
+                        subject: 'Your New Verification Code',
+                        text: `Here's your new verification code: ${newCode}`
+                    });
+                    console.log('Preview URL', nodemailer.getTestMessageUrl(info));
+                    res.send('A new verification code has been sent to your email');
+                } catch (err) {
+                    console.error('Error sending new code', mailErr);
+                    res.status(500).send('Could not send verification code');
+                }
+            }
+        );
+    });
+});
 
 // starts the server and listen on the defined port
 app.listen(port, () => {
