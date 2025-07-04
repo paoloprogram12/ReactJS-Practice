@@ -6,7 +6,7 @@ const cors = require('cors'); // allows requests from different origins (front e
 const bodyParser = require('body-parser'); // parses incoming request bodies (JSON, etc.)
 const bcrypt = require('bcryptjs'); // library to hash and compare passwords
 const nodemailer = require('nodemailer'); // allows email confirmation
-const { default: Signup } = require('../login-frontend/src/Signup');
+// const { default: Signup } = require('../login-frontend/src/Signup');
 
 
 // JSON: used to transmit data between a server and a web app
