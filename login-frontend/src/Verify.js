@@ -22,6 +22,16 @@ export default function Verify() {
         }
     };
 
+    const handleResend = async(e) => {
+        try {
+            const res = await axios.post("/resend-code", { email: state.email });
+            setResendMsg(res.data);
+            setTimeout(() => setResendMsg(""), 5000); // clears after 5s
+        } catch (err) {
+            setResendMsg(err.response?.data || "Could not resend code");
+        }
+    };
+
     return (
         <div>
             <h2>Verify Your Email</h2>
@@ -35,7 +45,13 @@ export default function Verify() {
                 /><br/>
                 <button type="submit">Verify</button>
             </form>
-            <p>{msg}</p>
+
+            <p style={{ color: "green" }}>{msg}</p>
+
+            <button onClick={handleResend} style={{ marginTop: "1em"}}>
+                Send a New Code
+            </button>
+            <p style={{ color: "blue" }}>{resendMsg}</p>
         </div>
     );
 }
