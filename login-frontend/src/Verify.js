@@ -21,4 +21,21 @@ export default function Verify() {
             setMsg(err.response?.data || "Verification Failed");
         }
     };
+
+    return (
+        <div>
+            <h2>Verify Your Email</h2>
+            <p>Enter the 6-digit code we sent to <strong>{state?.email}</strong></p>
+            <form onSubmit={handleVerify}>
+                <input
+                    type="text"
+                    placeholder="6-Digit Code"
+                    value={code}
+                    onChange={e => setCode(e.target.value)}
+                /><br/>
+                <button type="submit">Verify</button>
+            </form>
+            <p>{msg}</p>
+        </div>
+    );
 }
