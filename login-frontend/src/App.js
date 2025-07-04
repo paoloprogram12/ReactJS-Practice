@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Signup from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
+import Verify from "./Verify";
 // Import Router components:
 // - Router: wraps your app and enables routing
 // - Routes: wraps all your individual routes
@@ -18,6 +19,8 @@ function App() {
         <Route path='/signup' element={<Signup />} /> {/* When the url "/signup" is shown, shows the signup */}
 
         <Route path='/login' element={<Login />} /> {/* when the url is "/login" is shown, shows the login */}
+
+        <Route path="/verify" element={<Verify />} />
 
         <Route path='/home' element={<Home />} /> { /* when the url is "/home" is home, shows the home */ } 
         
